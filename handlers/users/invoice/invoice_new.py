@@ -1,10 +1,10 @@
+import datetime
+
 import peewee
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 from aiogram.types import Message
 from aiogram.types import ReplyKeyboardRemove
-import datetime
-
 from loguru import logger
 
 from handlers.users.invoice.utils import generate_invoice_info
@@ -40,6 +40,7 @@ async def enter_receiver(message: Message, state: FSMContext):
 
 @dp.message_handler(state=NewInvoiceStates.enter_sum)
 async def enter_sum(message: Message, state: FSMContext):
+    message.text = escape_html_symbols(message.text)
     if len(message.text) <= 12:
         await state.update_data(sum=message.text)
         await message.answer(lang.ru["new_invoice_enter_description"])
@@ -50,6 +51,7 @@ async def enter_sum(message: Message, state: FSMContext):
 
 @dp.message_handler(state=NewInvoiceStates.enter_description)
 async def enter_sum(message: Message, state: FSMContext):
+    message.text = escape_html_symbols(message.text)
     if len(message.text) <= 64:
         if message.text == "/skip":
             message.text = lang.ru["no_description"]
@@ -90,3 +92,15 @@ async def create_invoice(telegram_user_id, state):
         return contract
 
     return None
+
+
+def escape_html_symbols(text: str) -> str:
+    html_escape_table = {
+        "&": "&amp;",
+        '"': "&quot;",
+        "'": "&apos;",
+        ">": "&gt;",
+        "<": "&lt;",
+    }
+
+    return "".join(html_escape_table.get(c, c) for c in text)
