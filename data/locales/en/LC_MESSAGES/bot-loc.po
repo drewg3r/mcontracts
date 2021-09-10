@@ -1,0 +1,319 @@
+# English translations for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-09-10 10:56+0300\n"
+"PO-Revision-Date: 2021-09-10 12:03+0300\n"
+"Last-Translator: \n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+"X-Generator: Poedit 2.3\n"
+
+#: handlers/users/change_lang.py:15
+msgid "Выберите язык"
+msgstr "Choose language"
+
+#: handlers/users/change_lang.py:32
+msgid "Ваш язык изменен"
+msgstr "You've changed your language"
+
+#: handlers/users/start.py:22
+msgid "Добро пожаловать, {name}!\n"
+"Введите /help для получения справки"
+msgstr "Welcome, {name}!\n"
+"Type /help for help"
+
+#: handlers/users/invoice/invoice_archive.py:29
+msgid "Инвойс архивирован"
+msgstr "Invoice is archived"
+
+#: handlers/users/invoice/invoice_archive.py:31
+#: handlers/users/invoice/invoice_archive.py:51
+msgid "Возникла ошибка"
+msgstr "Error occured"
+
+#: handlers/users/invoice/invoice_archive.py:49
+msgid "Инвойс восстановлен"
+msgstr "Invoice is restored"
+
+#: handlers/users/invoice/invoice_finish.py:21
+msgid "Возникла непредвиденная ошибка"
+msgstr "Unexcepted error occured"
+
+#: handlers/users/invoice/invoice_finish.py:30
+msgid "Вы закрыли контракт"
+msgstr "You've closed an invoice"
+
+#: handlers/users/invoice/invoice_list.py:21
+msgid "\n"
+"\n"
+"У вас нет активных инвойсов"
+msgstr "\n"
+"\n"
+"You have no active invoices"
+
+#: handlers/users/invoice/invoice_list.py:23
+#: handlers/users/invoice/paginator.py:27
+msgid "<b>Список активных инвойсов</b>"
+msgstr "<b>Active invoices list</b>"
+
+#: handlers/users/invoice/invoice_list_archived.py:21
+#: handlers/users/invoice/paginator.py:30
+msgid "\n"
+"\n"
+"У вас нет архивных инвойсов"
+msgstr "\n"
+"\n"
+"You have no archived invoices"
+
+#: handlers/users/invoice/invoice_list_archived.py:23
+#: handlers/users/invoice/paginator.py:26
+msgid "<b>Список архивных инвойсов</b>"
+msgstr "<b>Archived invoices list</b>"
+
+#: handlers/users/invoice/invoice_new.py:24
+msgid "Отменено"
+msgstr "Canceled"
+
+#: handlers/users/invoice/invoice_new.py:32
+msgid "Создаём новый инвойс.\n"
+"Вы хотите получить или отдать деньги?\n"
+"(/cancel - отмена)"
+msgstr "Creating new invoice.\n"
+"Do you want to receive or give money?\n"
+"(/cancel to abort)"
+
+#: handlers/users/invoice/invoice_new.py:41 keyboards/default/invoice.py:12
+msgid "👛Получить"
+msgstr "👛Receive"
+
+#: handlers/users/invoice/invoice_new.py:43
+msgid "Теперь введите сумму, которую хотите получить"
+msgstr "Now enter the amount of money you want to receive"
+
+#: handlers/users/invoice/invoice_new.py:44 keyboards/default/invoice.py:13
+msgid "💸Отдать"
+msgstr "💸Give"
+
+#: handlers/users/invoice/invoice_new.py:46
+msgid "Теперь введите сумму, которую хотите отдать"
+msgstr "Now enter the amount of money you want to give"
+
+#: handlers/users/invoice/invoice_new.py:50
+#: handlers/users/invoice/invoice_new.py:63
+#: handlers/users/invoice/invoice_new.py:95
+msgid "Ошибка. Введите данные еще раз или отмените создание счёта(/cancel)"
+msgstr "Invalid data. Enter correct data or abort invoice creation(/cancel)"
+
+#: handlers/users/invoice/invoice_new.py:60
+msgid "Отлично. Теперь введите описание\n"
+"(/skip - пропустить)"
+msgstr "Well done! Now enter invoice's description\n"
+"(/skip to leave blank)"
+
+#: handlers/users/invoice/invoice_new.py:83
+msgid "Вы должны отправить боту команду /start прежде чем начать пользоваться контрактами"
+msgstr "You should send /start to this bot before using invoices"
+
+#: handlers/users/invoice/invoice_refresh.py:37
+#: handlers/users/invoice/invoice_refresh.py:59
+msgid "Информация обновлена"
+msgstr "Information has been updated"
+
+#: handlers/users/invoice/invoice_refresh.py:55
+msgid "invoice_info"
+msgstr ""
+
+#: handlers/users/invoice/invoice_share.py:42
+msgid "Отправить контракт №{}"
+msgstr "Send contract №{}"
+
+#: handlers/users/invoice/invoice_sign.py:31
+msgid "Произошла внутренняя ошибка"
+msgstr "Internal error occured"
+
+#: handlers/users/invoice/invoice_sign.py:34
+msgid "Внутренняя ошибка: контракт не найден"
+msgstr "Internal error occured: contract not found"
+
+#: handlers/users/invoice/invoice_sign.py:38
+msgid "Этот контракт уже подписан. Нажмите на кнопку \"Обновить\""
+msgstr "This contract is already signed. Press \"Refresh\""
+
+#: handlers/users/invoice/invoice_sign.py:42
+msgid "Вы не можете подписать контракт являясь его автором"
+msgstr "You cannot sign a contract as its author"
+
+#: handlers/users/invoice/invoice_sign.py:47
+msgid "Для работы с контрактами вы должны нажать кнопку СТАРТ в боте @{}"
+msgstr "To start working with contracts you have to press START button in @{} bot"
+
+#: handlers/users/invoice/invoice_sign.py:57
+msgid "Контракт подписан"
+msgstr "Contract has been signed"
+
+#: handlers/users/invoice/paginator.py:31
+msgid "\n"
+"\n"
+"У вас нет актинвых инвойсов"
+msgstr "\n"
+"\n"
+"You have no active invoices"
+
+#: keyboards/inline/invoice.py:11 keyboards/inline/invoice.py:37
+#: keyboards/inline/invoice.py:48
+msgid "🔄Обновить"
+msgstr "🔄Refresh"
+
+#: keyboards/inline/invoice.py:15
+msgid "Поделиться"
+msgstr "Share"
+
+#: keyboards/inline/invoice.py:21
+msgid "Закрыть"
+msgstr "Finish"
+
+#: keyboards/inline/invoice.py:25
+msgid "📥Архивировать"
+msgstr "📥Archive"
+
+#: keyboards/inline/invoice.py:29
+msgid "📤Восстановить"
+msgstr "📤Restore"
+
+#: keyboards/inline/invoice.py:40
+msgid "🤝Подписать"
+msgstr "🤝Sign"
+
+#: services/invoice/info.py:31
+msgid "<i>контракт еще не подписан</i>"
+msgstr "<i>contract is not signed yet</i>"
+
+#: services/invoice/info.py:34
+msgid "Ожидается подпись"
+msgstr "Waiting for signer"
+
+#: services/invoice/info.py:37
+msgid "Контракт активен"
+msgstr "Contract is active"
+
+#: services/invoice/info.py:40
+msgid "Контракт закрыт"
+msgstr "Contract is closed"
+
+#: services/invoice/info.py:52
+msgid "Автор -> Подписанту"
+msgstr "Author -> Signer"
+
+#: services/invoice/info.py:53
+msgid "Подписант -> Автору"
+msgstr "Signer -> Author"
+
+#: services/invoice/info.py:55
+msgid "<i>без описания</i>"
+msgstr "<i>no description</i>"
+
+#: services/invoice/info.py:65
+msgid "<i>договор еще не подписан</i>"
+msgstr "<i>contract is not signed yet</i>"
+
+#: services/invoice/info.py:75
+msgid "Вы"
+msgstr "You"
+
+#: services/invoice/info.py:80
+msgid "Вам"
+msgstr "You"
+
+#: utils/templates.py:6
+#, fuzzy
+msgid "{emoji_status}<b>Счёт №{invoice}</b>\n"
+"<b>Статус:</b> {status}\n"
+"\n"
+"<b>Автор:</b> {creator}\n"
+"<b>Подписант:</b> {signer}\n"
+"\n"
+"Договор о передаче денег:\n"
+"{direction}\n"
+"\n"
+"<b>Сумма:</b> {sum}\n"
+"\n"
+"<b>Дата создания:</b> {date_created}\n"
+"\n"
+"<b>Описание:</b> {description}"
+msgstr "{emoji_status}<b>Invoice №{invoice}</b>\n"
+"<b>Status:</b> {status}\n"
+"\n"
+"<b>Author:</b> {creator}\n"
+"<b>Signer:</b> {signer}\n"
+"\n"
+"Money transfer direction:\n"
+"{direction}\n"
+"\n"
+"<b>Amount:</b> {sum}\n"
+"\n"
+"<b>Creation date:</b> {date_created}\n"
+"\n"
+"<b>Description:</b> {description}\n"
+"\n"
+"\n"
+"{additional_info}"
+
+#: utils/templates.py:11
+msgid "\n"
+"\n"
+"<b>Инвойс №{invoice}</b>\n"
+"<b>Сумма:</b> {sum}\n"
+"<b>Описание:</b> {description}\n"
+"{direction}\n"
+"{date_created}\n"
+"<b>Подробнее:</b> /inv_info_{invoice}\n"
+msgstr "\n"
+"\n"
+"<b>Invoice №{invoice}</b>\n"
+"<b>Amount:</b> {sum}\n"
+"<b>Description:</b> {description}\n"
+"{direction}\n"
+"{date_created}\n"
+"<b>Details:</b> /inv_info_{invoice}\n"
+
+#: utils/templates.py:12
+msgid "Этот бот позволяет создавать договорённости. Сейчас доступна только договорённость типа «счёт».\n"
+"Для её создания введите /new_invoice"
+msgstr "This bot allows you to create agreements. Currently, only an \"invoice\" type arrangement is available.\n"
+"To create it, type /new_invoice"
+
+#~ msgid "💸1Отдать"
+#~ msgstr "💸Giveee"
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "<b>Инвойс №{invoice}</b>\n"
+#~ "<b>Сумма:</b> {sum}\n"
+#~ "<b>Описание:</b> {description}\n"
+#~ "{direction}\n"
+#~ "{date_created}\n"
+#~ "<b>Подробнее:</b> /inv_info_{invoice}\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "<b>Invoice №{invoice}</b>\n"
+#~ "<b>Amount:</b> {sum}\n"
+#~ "<b>Description:</b> {description}\n"
+#~ "{direction}\n"
+#~ "{date_created}\n"
+#~ "<b>More:</b> /inv_info_{invoice}\n"
+
+#~ msgid "🔄ООбновить"
+#~ msgstr ""

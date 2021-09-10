@@ -1,3 +1,6 @@
 .idea/
-.Dockerfile
+Dockerfile
 debug.log
+info.log
+contracts.db
+.ids

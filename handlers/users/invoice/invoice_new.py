@@ -1,106 +1,95 @@
-import datetime
-
-import peewee
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 from aiogram.types import Message
 from aiogram.types import ReplyKeyboardRemove
 from loguru import logger
 
-from handlers.users.invoice.utils import generate_invoice_info
 from keyboards.default.invoice import new_invoice_markup
 from keyboards.inline.invoice import invoice_share_keyboard
 from loader import dp, rid
+from middlewares import i18n
+from services.invoice.create import create_invoice
+from services.invoice.info import invoice_info
 from states.invoice import NewInvoiceStates
-from utils.db_api.models import Contract, Invoice, UserToContractConnector, User
-from utils.misc import lang
+from utils.exceptions import UserNotFoundException
+from utils.templates import t
+
+_ = i18n.gettext
 
 
 @dp.message_handler(Command("cancel"), state="*")
 async def cancel(message: Message, state: FSMContext):
+    logger.debug("User#{} cleared his FSM state(/cancel)", message.from_user.id)
     await state.finish()
-    await message.answer(lang.ru["new_invoice_canceled"], reply_markup=ReplyKeyboardRemove())
+    await message.answer(_("Отменено"), reply_markup=ReplyKeyboardRemove())
 
 
 @dp.message_handler(Command("new_invoice"))
 async def new_invoice(message: Message):
-    await message.answer(text=lang.ru["new_invoice_create"], reply_markup=new_invoice_markup)
+    logger.debug("User#{} initiated new invoice wizard", message.from_user.id)
     await NewInvoiceStates.first()
+    await message.answer(
+        text=_("Создаём новый инвойс.\n"
+               "Вы хотите получить или отдать деньги?\n"
+               "(/cancel - отмена)"),
+        reply_markup=new_invoice_markup()
+    )
 
 
 @dp.message_handler(state=NewInvoiceStates.enter_receiver)
 async def enter_receiver(message: Message, state: FSMContext):
-    if message.text in [lang.ru["new_invoice_keyboard_receive"], lang.ru["new_invoice_keyboard_give"]]:
-        await state.update_data(receiver=message.text)
-        await message.answer(lang.ru["new_invoice_enter_sum"], reply_markup=ReplyKeyboardRemove())
-        await NewInvoiceStates.next()
+    if message.text == _("👛Получить"):
+        await state.update_data(money_from_creator=False)
+        text = _("Теперь введите сумму, которую хотите получить")
+    elif message.text == _("💸Отдать"):
+        await state.update_data(money_from_creator=True)
+        text = _("Теперь введите сумму, которую хотите отдать")
     else:
-        await message.answer(lang.ru["new_invoice_error"])
+        logger.debug("User#{} chose invalid option in 'enter receiver' dialog",
+                     message.from_user.id)
+        text = _("Ошибка. Введите данные еще раз или отмените создание счёта(/cancel)")
+    await message.answer(text=text, reply_markup=ReplyKeyboardRemove())
+    await NewInvoiceStates.next()
 
 
 @dp.message_handler(state=NewInvoiceStates.enter_sum)
 async def enter_sum(message: Message, state: FSMContext):
-    message.text = escape_html_symbols(message.text)
     if len(message.text) <= 12:
         await state.update_data(sum=message.text)
-        await message.answer(lang.ru["new_invoice_enter_description"])
         await NewInvoiceStates.next()
+        text = _("Отлично. Теперь введите описание\n(/skip - пропустить)")
     else:
-        await message.answer(lang.ru["new_invoice_error"])
+        logger.debug("User#{} entered invalid invoice sum", message.from_user.id)
+        text = _("Ошибка. Введите данные еще раз или отмените"
+                 " создание счёта(/cancel)")
+
+    await message.answer(text=text)
 
 
 @dp.message_handler(state=NewInvoiceStates.enter_description)
-async def enter_sum(message: Message, state: FSMContext):
-    message.text = escape_html_symbols(message.text)
+async def enter_description(message: Message, state: FSMContext):
     if len(message.text) <= 64:
         if message.text == "/skip":
-            message.text = lang.ru["no_description"]
-        await state.update_data(description=message.text)
+            message.text = ""
 
-        contract = await create_invoice(message.from_user.id, state)
-        if contract:
-            invoice_info = await generate_invoice_info(contract, lang.ru["invoice_info_share"])
-            await message.answer(text=lang.ru["invoice_info"].format(**invoice_info),
-                                 reply_markup=invoice_share_keyboard(rid[contract.id]))
-            await state.finish()
-        else:
-            await message.answer(lang.ru["new_invoice_error"])
-    else:
-        await message.answer(lang.ru["new_invoice_error"])
-
-
-async def create_invoice(telegram_user_id, state):
-    try:
         state_data = await state.get_data()
+        try:
+            contract = create_invoice(telegram_user_id=message.from_user.id,
+                                      description=message.text,
+                                      money_from_creator=state_data["money_from_creator"],
+                                      amount=state_data["sum"]
+                                      )
+        except UserNotFoundException:
+            await message.answer(_("Вы должны отправить боту команду /start "
+                                   "прежде чем начать пользоваться контрактами"))
+            return
+        finally:
+            await state.finish()
 
-        money_from_creator = True if state_data["receiver"] == lang.ru["new_invoice_keyboard_give"] else False
+        invoice_data, contract = await invoice_info(contract.id, parties_info=True)
 
-        contract = Contract.create(type=1, status=1, description=state_data["description"],
-                                   date_created=datetime.date.today())
+        await message.answer(text=_(t["invoice_info"]).format(**invoice_data),
+                             reply_markup=invoice_share_keyboard(rid[contract.id]))
 
-        Invoice.create(contract=contract, sum=state_data["sum"], money_from_creator=money_from_creator)
-        user = User.get(User.telegram_id == telegram_user_id)
-        UserToContractConnector.create(user=user, contract=contract, is_creator=True, is_hidden=False)
-    except peewee.DoesNotExist:
-        logger.error("User with provided telegram id does not exists in database")
-    except KeyError:
-        logger.error("Invalid state's data")
-    except Exception as err:
-        logger.opt(exception=err).error("Broad Exception")
     else:
-        logger.debug("User #{} created Invoice#{}({})", telegram_user_id, contract.id, rid[contract.id])
-        return contract
-
-    return None
-
-
-def escape_html_symbols(text: str) -> str:
-    html_escape_table = {
-        "&": "&amp;",
-        '"': "&quot;",
-        "'": "&apos;",
-        ">": "&gt;",
-        "<": "&lt;",
-    }
-
-    return "".join(html_escape_table.get(c, c) for c in text)
+        await message.answer(_("Ошибка. Введите данные еще раз или отмените создание счёта(/cancel)"))

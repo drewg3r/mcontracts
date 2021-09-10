@@ -1,13 +1,13 @@
-import math
-
 from aiogram.types import CallbackQuery
 from aiogram.utils.exceptions import MessageNotModified
 
-from handlers.users.invoice.utils import generate_invoice_info, generate_invoice_list_body
 from keyboards.inline.invoice import invoice_paging_keyboard
 from loader import dp, bot
-from utils.db_api.models import User, UserToContractConnector, Contract
-from utils.misc import lang
+from middlewares import i18n
+from services.invoice.paginator import get_page
+from utils.templates import t
+
+_ = i18n.gettext
 
 
 @dp.callback_query_handler(text_contains="invoice_list_paginator")
@@ -16,34 +16,33 @@ async def paginator(call: CallbackQuery):
         data = call.data.split(":")
         is_hidden = True if data[2] == "True" else False
         page = int(data[1])
-        page = page if page > 0 else 1
 
-        user = User.get(User.telegram_id == call.from_user.id)
-        contracts = Contract.select().join(UserToContractConnector).where(UserToContractConnector.user_id == user.id,
-                                                                          Contract.type == 1,
-                                                                          UserToContractConnector.is_hidden == is_hidden) \
-            .order_by(Contract.id.desc())
+        page_data = await get_page(call.from_user.id, page, archived=is_hidden)
 
         invoice_list_body = ""
+        for invoice in page_data.page_body:
+            invoice_list_body += _(t["list_invoice_body"]).format(**invoice)
 
-        for contract in contracts[(page - 1) * 3:page * 3]:
-            invoice_list_body += await generate_invoice_list_body(contract, call.from_user.id)
-
-        total_pages = math.ceil(len(contracts) / 3)
+        reply_header = _("<b>Список архивных инвойсов</b>") if is_hidden else \
+                       _("<b>Список активных инвойсов</b>")
 
         if not invoice_list_body:
-            invoice_list_body = lang.ru["invoice_no_active_invoices"] if not is_hidden else lang.ru["invoice_no_archived_invoices"]
-            reply_markup = invoice_paging_keyboard(1, 1, "0/0", is_hidden=is_hidden)
-        else:
-            reply_markup = invoice_paging_keyboard(page - 1, page + 1 if page != total_pages else page,
-                                                   "{}/{}".format(page, total_pages), is_hidden=is_hidden)
+            invoice_list_body = _("\n\nУ вас нет архивных инвойсов") if is_hidden else \
+                                _("\n\nУ вас нет актинвых инвойсов")
 
-        page_header = lang.ru["invoice_active_list"] if not is_hidden else lang.ru["invoice_archived_list"]
-        page_contents = page_header + invoice_list_body
+        reply_text = reply_header + invoice_list_body
+        reply_markup = invoice_paging_keyboard(
+            left=page_data.prev_page,
+            right=page_data.next_page,
+            middle_text="{}/{}".format(
+                page_data.current_page+1 if page_data.page_body else 0,
+                page_data.total_pages),
+            is_hidden=is_hidden
+        )
 
         await bot.edit_message_text(message_id=call.message.message_id,
                                     chat_id=call.message.chat.id,
-                                    text=page_contents,
+                                    text=reply_text,
                                     reply_markup=reply_markup)
     except MessageNotModified:
         pass

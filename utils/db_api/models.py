@@ -1,6 +1,7 @@
 from peewee import *
 
 from loader import db
+from utils.db_api.statuses import InvoiceStatus
 
 
 class BaseModel(Model):
@@ -16,12 +17,30 @@ class User(BaseModel):
 class Contract(BaseModel):
     type = IntegerField()
     date_created = DateField(null=True)
-    status = IntegerField()
+    _status = IntegerField(column_name="status")
     description = IntegerField()
 
     @property
     def invoice(self):
         return self.invoice_set.get()
+
+    @property
+    def status(self):
+        if self.type == 1:
+            if self._status == 1:
+                return InvoiceStatus.SignNeeded
+            if self._status == 2:
+                return InvoiceStatus.Active
+            if self._status == 3:
+                return InvoiceStatus.Done
+
+    @status.setter
+    def status(self, new_status):
+        if type(new_status) is int:
+            self._status = new_status
+        elif type(new_status) in [InvoiceStatus.SignNeeded,
+                                  InvoiceStatus.Active, InvoiceStatus.Done]:
+            self._status = new_status.status_id()
 
 
 class UserToContractConnector(BaseModel):

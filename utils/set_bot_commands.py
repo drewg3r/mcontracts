@@ -6,8 +6,9 @@ async def set_default_commands(dp):
         [
             types.BotCommand("start", "Запустить бота"),
             types.BotCommand("help", "Вывести справку"),
+            types.BotCommand("lang", "Изменить язык"),
             types.BotCommand("new_invoice", "Создать новый счёт"),
-            types.BotCommand("list_invoices", "Показать список инвойсов"),
-            types.BotCommand("list_invoices_archived", "Показать список архивных инвойсов"),
+            types.BotCommand("list", "Показать список инвойсов"),
+            types.BotCommand("list_archived", "Показать список архивных инвойсов"),
         ]
     )

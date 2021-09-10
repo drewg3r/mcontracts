@@ -2,7 +2,7 @@ from aiogram import executor
 from loguru import logger
 
 from loader import dp, db
-import middlewares, filters, handlers
+import middlewares, handlers
 from utils.db_api.models import User, Contract, UserToContractConnector, Invoice
 from utils.misc.on_startup_notify import on_startup_notify
 from utils.set_bot_commands import set_default_commands

@@ -1,10 +1,15 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-from utils.misc import lang
+from middlewares import i18n
 
-new_invoice_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, keyboard=[
-    [
-        KeyboardButton(text=lang.ru["new_invoice_keyboard_receive"]),
-        KeyboardButton(text=lang.ru["new_invoice_keyboard_give"])
-    ]
-])
+
+_ = i18n.gettext
+
+
+def new_invoice_markup() -> ReplyKeyboardMarkup:
+    return ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, keyboard=[
+        [
+            KeyboardButton(text=_("👛Получить")),
+            KeyboardButton(text=_("💸Отдать"))
+        ]
+    ])

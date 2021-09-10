@@ -1,0 +1,316 @@
+# Ukrainian translations for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-09-10 10:56+0300\n"
+"PO-Revision-Date: 2021-09-10 11:01+0300\n"
+"Last-Translator: \n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+"X-Generator: Poedit 2.3\n"
+
+#: handlers/users/change_lang.py:15
+msgid "Выберите язык"
+msgstr "Оберіть мову"
+
+#: handlers/users/change_lang.py:32
+msgid "Ваш язык изменен"
+msgstr "Мову змінено"
+
+#: handlers/users/start.py:22
+msgid ""
+"Добро пожаловать, {name}!\n"
+"Введите /help для получения справки"
+msgstr ""
+"Вітаю, {name}!\n"
+"Введіть /help щоб отрмати довідку"
+
+#: handlers/users/invoice/invoice_archive.py:29
+msgid "Инвойс архивирован"
+msgstr "Ви архівували інвойс"
+
+#: handlers/users/invoice/invoice_archive.py:31
+#: handlers/users/invoice/invoice_archive.py:51
+#, fuzzy
+msgid "Возникла ошибка"
+msgstr "Виникла непередбачувана помилка"
+
+#: handlers/users/invoice/invoice_archive.py:49
+msgid "Инвойс восстановлен"
+msgstr "Ви відновили інвойс"
+
+#: handlers/users/invoice/invoice_finish.py:21
+msgid "Возникла непредвиденная ошибка"
+msgstr "Виникла непередбачувана помилка"
+
+#: handlers/users/invoice/invoice_finish.py:30
+msgid "Вы закрыли контракт"
+msgstr "Ви закрили контракт"
+
+#: handlers/users/invoice/invoice_list.py:21
+msgid ""
+"\n"
+"\n"
+"У вас нет активных инвойсов"
+msgstr ""
+"\n"
+"\n"
+"У вас немає активних інвойсів"
+
+#: handlers/users/invoice/invoice_list.py:23
+#: handlers/users/invoice/paginator.py:27
+msgid "<b>Список активных инвойсов</b>"
+msgstr "<b>Список активних інвойсів</b>"
+
+#: handlers/users/invoice/invoice_list_archived.py:21
+#: handlers/users/invoice/paginator.py:30
+msgid ""
+"\n"
+"\n"
+"У вас нет архивных инвойсов"
+msgstr ""
+"\n"
+"\n"
+"У вас немає архівних інвойсів"
+
+#: handlers/users/invoice/invoice_list_archived.py:23
+#: handlers/users/invoice/paginator.py:26
+msgid "<b>Список архивных инвойсов</b>"
+msgstr "<b>Список архівних інвойсів</b>"
+
+#: handlers/users/invoice/invoice_new.py:24
+msgid "Отменено"
+msgstr "Відмінено"
+
+#: handlers/users/invoice/invoice_new.py:32
+msgid ""
+"Создаём новый инвойс.\n"
+"Вы хотите получить или отдать деньги?\n"
+"(/cancel - отмена)"
+msgstr ""
+"Створюємо новий інвойс.\n"
+"Ви хочете отримати чи віддати кошти?\n"
+"(/cancel - скасувати)"
+
+#: handlers/users/invoice/invoice_new.py:41 keyboards/default/invoice.py:12
+msgid "👛Получить"
+msgstr "👛Отримати"
+
+#: handlers/users/invoice/invoice_new.py:43
+msgid "Теперь введите сумму, которую хотите получить"
+msgstr "Тепер введіть суму, яку бажаєте отримати"
+
+#: handlers/users/invoice/invoice_new.py:44 keyboards/default/invoice.py:13
+msgid "💸Отдать"
+msgstr "💸Віддати"
+
+#: handlers/users/invoice/invoice_new.py:46
+msgid "Теперь введите сумму, которую хотите отдать"
+msgstr "Тепер введіть суму, яку бажаєте віддати"
+
+#: handlers/users/invoice/invoice_new.py:50
+#: handlers/users/invoice/invoice_new.py:63
+#: handlers/users/invoice/invoice_new.py:95
+msgid "Ошибка. Введите данные еще раз или отмените создание счёта(/cancel)"
+msgstr "Помилка. Введіть дані знову або відмініть створення рахунку(/cancel)"
+
+#: handlers/users/invoice/invoice_new.py:60
+msgid ""
+"Отлично. Теперь введите описание\n"
+"(/skip - пропустить)"
+msgstr ""
+"Чудово. Тепер введіть опис\n"
+"(/skip - пропустити)"
+
+#: handlers/users/invoice/invoice_new.py:83
+msgid ""
+"Вы должны отправить боту команду /start прежде чем начать пользоваться "
+"контрактами"
+msgstr ""
+"Вам потрібно надіслати боту команду /start перш ніж почати користуватись "
+"контрактами"
+
+#: handlers/users/invoice/invoice_refresh.py:37
+#: handlers/users/invoice/invoice_refresh.py:59
+msgid "Информация обновлена"
+msgstr "Інформацію оновлено"
+
+#: handlers/users/invoice/invoice_refresh.py:55
+msgid "invoice_info"
+msgstr "invoice_info"
+
+#: handlers/users/invoice/invoice_share.py:42
+msgid "Отправить контракт №{}"
+msgstr "Надіслати контракт №{}"
+
+#: handlers/users/invoice/invoice_sign.py:31
+msgid "Произошла внутренняя ошибка"
+msgstr "Виникла внутрішня помилка"
+
+#: handlers/users/invoice/invoice_sign.py:34
+msgid "Внутренняя ошибка: контракт не найден"
+msgstr "Внутрішня помилка: контракт не знайдено"
+
+#: handlers/users/invoice/invoice_sign.py:38
+msgid "Этот контракт уже подписан. Нажмите на кнопку \"Обновить\""
+msgstr "Цей контракт вже підписано. Натисніть кнопку \"Оновити\""
+
+#: handlers/users/invoice/invoice_sign.py:42
+msgid "Вы не можете подписать контракт являясь его автором"
+msgstr "Неможливо підписати контракт створений вами"
+
+#: handlers/users/invoice/invoice_sign.py:47
+msgid "Для работы с контрактами вы должны нажать кнопку СТАРТ в боте @{}"
+msgstr "Для роботи з контрактами потрібно натиснути кнопку СТАРТ в боті @{}"
+
+#: handlers/users/invoice/invoice_sign.py:57
+msgid "Контракт подписан"
+msgstr "Контракт підписано"
+
+#: handlers/users/invoice/paginator.py:31
+msgid ""
+"\n"
+"\n"
+"У вас нет актинвых инвойсов"
+msgstr ""
+"\n"
+"\n"
+"У вас немає активних інвойсів"
+
+#: keyboards/inline/invoice.py:11 keyboards/inline/invoice.py:37
+#: keyboards/inline/invoice.py:48
+msgid "🔄Обновить"
+msgstr "🔄Оновити"
+
+#: keyboards/inline/invoice.py:15
+msgid "Поделиться"
+msgstr "Поділитись"
+
+#: keyboards/inline/invoice.py:21
+msgid "Закрыть"
+msgstr "Закрити"
+
+#: keyboards/inline/invoice.py:25
+msgid "📥Архивировать"
+msgstr "📥Архивувати"
+
+#: keyboards/inline/invoice.py:29
+msgid "📤Восстановить"
+msgstr "📤Відновити"
+
+#: keyboards/inline/invoice.py:40
+msgid "🤝Подписать"
+msgstr "🤝Підписати"
+
+#: services/invoice/info.py:31
+msgid "<i>контракт еще не подписан</i>"
+msgstr "<i>контракт ще не підписано</i>"
+
+#: services/invoice/info.py:34
+msgid "Ожидается подпись"
+msgstr "Очікується підпис"
+
+#: services/invoice/info.py:37
+msgid "Контракт активен"
+msgstr "Контракт активний"
+
+#: services/invoice/info.py:40
+msgid "Контракт закрыт"
+msgstr "Контракт закрито"
+
+#: services/invoice/info.py:52
+msgid "Автор -> Подписанту"
+msgstr "Автор -> Підписанту"
+
+#: services/invoice/info.py:53
+msgid "Подписант -> Автору"
+msgstr "Підписант -> Автору"
+
+#: services/invoice/info.py:55
+msgid "<i>без описания</i>"
+msgstr "<i>без опису</i>"
+
+#: services/invoice/info.py:65
+msgid "<i>договор еще не подписан</i>"
+msgstr "<i>договір ще не підписано</i>"
+
+#: services/invoice/info.py:75
+msgid "Вы"
+msgstr "Ви"
+
+#: services/invoice/info.py:80
+msgid "Вам"
+msgstr "Вам"
+
+#: utils/templates.py:6
+msgid ""
+"{emoji_status}<b>Счёт №{invoice}</b>\n"
+"<b>Статус:</b> {status}\n"
+"\n"
+"<b>Автор:</b> {creator}\n"
+"<b>Подписант:</b> {signer}\n"
+"\n"
+"Договор о передаче денег:\n"
+"{direction}\n"
+"\n"
+"<b>Сумма:</b> {sum}\n"
+"\n"
+"<b>Дата создания:</b> {date_created}\n"
+"\n"
+"<b>Описание:</b> {description}"
+msgstr ""
+"{emoji_status}<b>Рахунок №{invoice}</b>\n"
+"<b>Статус:</b> {status}\n"
+"\n"
+"<b>Автор:</b> {creator}\n"
+"<b>Підписант:</b> {signer}\n"
+"\n"
+"Договір про передачу грошей:\n"
+"{direction}\n"
+"\n"
+"<b>Сума:</b> {sum}\n"
+"\n"
+"<b>Дата створення:</b> {date_created}\n"
+"\n"
+"<b>Опис:</b> {description}"
+
+#: utils/templates.py:11
+msgid ""
+"\n"
+"\n"
+"<b>Инвойс №{invoice}</b>\n"
+"<b>Сумма:</b> {sum}\n"
+"<b>Описание:</b> {description}\n"
+"{direction}\n"
+"{date_created}\n"
+"<b>Подробнее:</b> /inv_info_{invoice}\n"
+msgstr ""
+"\n"
+"\n"
+"<b>Інвойс №{invoice}</b>\n"
+"<b>Сума:</b> {sum}\n"
+"<b>Опис:</b> {description}\n"
+"{direction}\n"
+"{date_created}\n"
+"<b>Деталі:</b> /inv_info_{invoice}\n"
+
+#: utils/templates.py:12
+msgid ""
+"Этот бот позволяет создавать договорённости. Сейчас доступна только "
+"договорённость типа «счёт».\n"
+"Для её создания введите /new_invoice"
+msgstr ""
+"Цей бот дозволяє створювати домовленності. Наразі доступна лише "
+"домовленність типу «інвойс».\n"
+"Для її створення введіть /new_invoice"

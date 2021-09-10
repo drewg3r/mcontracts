@@ -1,37 +1,32 @@
-import math
-
 from aiogram.dispatcher.filters import Command
 from aiogram.types import Message
 
-from handlers.users.invoice.utils import generate_invoice_info, generate_invoice_list_body
 from keyboards.inline.invoice import invoice_paging_keyboard
 from loader import dp
-from utils.db_api.models import User, UserToContractConnector, Contract
-from utils.misc import lang
+from middlewares import i18n
+from services.invoice.paginator import get_page
+from utils.templates import t
+
+_ = i18n.gettext
 
 
-@dp.message_handler(Command("list_invoices_archived"))
+@dp.message_handler(Command("list_archived"))
 async def list_invoices_archived_handler(message: Message):
-    page = 1
-
-    user = User.get(User.telegram_id == message.from_user.id)
-    contracts = Contract.select().join(UserToContractConnector).where(UserToContractConnector.user_id == user.id,
-                                                                      Contract.type == 1,
-                                                                      UserToContractConnector.is_hidden == True) \
-        .order_by(Contract.id.desc())
-
+    page_data = await get_page(message.from_user.id, 0, archived=True)
     invoice_list_body = ""
 
-    for contract in contracts[(page - 1) * 3:page * 3]:
-        invoice_list_body += await generate_invoice_list_body(contract, message.from_user.id)
+    for invoice in page_data.page_body:
+        invoice_list_body += _(t["list_invoice_body"]).format(**invoice)
 
-    invoice_list_body = invoice_list_body if invoice_list_body else lang.ru["invoice_no_archived_invoices"]
-    total_pages = math.ceil(len(contracts) / 3)
+    invoice_list_body = invoice_list_body if invoice_list_body else _("\n\nУ вас нет архивных инвойсов")
 
-    page_contents = lang.ru["invoice_archived_list"] + invoice_list_body
-    reply_markup = invoice_paging_keyboard(page - 1, page + 1 if page != total_pages else page,
-                                           "{}/{}".format(page, total_pages), is_hidden=True)
+    reply_header = _("<b>Список архивных инвойсов</b>")
 
-    await message.answer(text=page_contents,
+    reply_text = reply_header + invoice_list_body
+    reply_markup = invoice_paging_keyboard(page_data.prev_page, page_data.next_page,
+                                           "{}/{}".format(page_data.current_page+1 if page_data.page_body else 0,
+                                                          page_data.total_pages),
+                                           is_hidden=True)
+
+    await message.answer(text=reply_text,
                          reply_markup=reply_markup)
-

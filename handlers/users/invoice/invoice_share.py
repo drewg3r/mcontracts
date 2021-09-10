@@ -3,41 +3,44 @@ import hashlib
 from aiogram.types import InlineQuery, InputTextMessageContent, InlineQueryResultArticle
 from loguru import logger
 
-from handlers.users.invoice.utils import generate_invoice_info
 from keyboards.inline.invoice import invoice_sign_keyboard
 from loader import dp, bot, iid, rid
-from utils.db_api.models import Contract
-from utils.misc import lang
+from middlewares import i18n
+from services.invoice.info import invoice_info
+from services.invoice.share import share_invoice
+from utils.exceptions import ContractNotFoundException, ContractAccessDeniedException
+from utils.templates import t
+
+_ = i18n.gettext
 
 
 @dp.inline_handler()
 async def inline_share(inline_query: InlineQuery):
-    text = inline_query.query or 'none'
-    if text == "none":
+    try:
+        contract_id = iid[int(inline_query.query)]
+    except (ValueError, KeyError):
+        logger.error("Invalid callback data from User#{}",
+                     inline_query.from_user.id)
         return
 
     try:
-        contract = Contract.get(Contract.id == iid[int(text)])
+        contract, is_signed = share_invoice(contract_id, inline_query.from_user.id)
+    except ContractNotFoundException:
+        logger.warning("User#{} trying to share invalid Contract({})",
+                       inline_query.from_user.id, contract_id)
+        return
+    except ContractAccessDeniedException:
+        logger.error("User#{} trying to share contract he doesn't have access to(#{})",
+                     inline_query.from_user.id, contract_id)
+        return
 
-        if inline_query.from_user.id not in [user.user.telegram_id for user in contract.users]:
-            raise Exception("User not in contract's users")
-
-        invoice_info = await generate_invoice_info(contract, lang.ru["invoice_info_sign"])
-        if invoice_info["signer"] != lang.ru["invoice_info_no_signer"]:
-            invoice_info["additional_info"] = ""
-            signer_set = True
-        else:
-            signer_set = False
-
-        input_content = InputTextMessageContent(lang.ru["invoice_info"].format(**invoice_info))
-        result_id: str = hashlib.md5(text.encode()).hexdigest()
-        item = InlineQueryResultArticle(
-            id=result_id,
-            title=lang.ru["invoice_inline_send"].format(**invoice_info),
-            input_message_content=input_content,
-            reply_markup=invoice_sign_keyboard(rid[contract.id]) if not signer_set else None
-        )
-        await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
-    except Exception as err:
-        logger.opt(exception=err).error("Broad Exception")
-
+    invoice_data, contract = await invoice_info(contract.id, parties_info=True)
+    input_content = InputTextMessageContent(_(t["invoice_info"]).format(**invoice_data))
+    result_id: str = hashlib.md5(inline_query.query.encode()).hexdigest()
+    item = InlineQueryResultArticle(
+        id=result_id,
+        title=_("Отправить контракт №{}").format(rid[contract_id]),
+        input_message_content=input_content,
+        reply_markup=invoice_sign_keyboard(rid[contract.id]) if not is_signed else None
+    )
+    await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
