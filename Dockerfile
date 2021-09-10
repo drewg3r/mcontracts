@@ -12,4 +12,6 @@ RUN python3.9 -m pip install -r requirements.txt
 
 COPY . .
 
+RUN pybabel compile -d data/locales -D bot-loc
+
 CMD [ "python3.9", "./app.py" ]
