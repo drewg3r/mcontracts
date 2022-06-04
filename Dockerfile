@@ -1,6 +1,9 @@
 FROM ubuntu
 WORKDIR /mcontracts
 
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Kiev
+
 RUN apt update
 RUN apt install -y software-properties-common
 RUN add-apt-repository ppa:deadsnakes/ppa
